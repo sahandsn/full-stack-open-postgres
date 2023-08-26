@@ -40,30 +40,14 @@ Blog.init(
   }
 );
 
-// const main = async () => {
-//   try {
-//     await sequelize.authenticate();
-//     console.log('connection to db has been established successfully');
-//     const blogs = await Blog.findAll();
-//     blogs.forEach(b => {
-//         console.log(`${b.dataValues.author}: ${b.dataValues.title}, ${b.dataValues.likes} likes`);
-//     })
-//     sequelize.close();
-//   } catch (err) {
-//     console.log('unable to connect to db', err);
-//   }
-// };
-
-// main();
-
 // get all
-app.get('/full-stack-open-postgres/api/blogs', async (req, res) => {
+app.get('/api/blogs', async (req, res) => {
   const blogs = await Blog.findAll();
   return res.json(blogs);
 });
 
 // add a new one
-app.post('/full-stack-open-postgres/api/blogs', async (req, res) => {
+app.post('/api/blogs', async (req, res) => {
   try {
     const blog = await Blog.create(req.body);
     return res.json(blog);
@@ -73,7 +57,7 @@ app.post('/full-stack-open-postgres/api/blogs', async (req, res) => {
 });
 
 // delete one
-app.delete('/full-stack-open-postgres/api/blogs/:id', async (req, res) => {
+app.delete('/api/blogs/:id', async (req, res) => {
   try {
     const blog = await Blog.findByPk(req.params.id);
     if (blog) {
