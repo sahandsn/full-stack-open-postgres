@@ -1,0 +1,16 @@
+GET http://localhost:3001/api/blogs/
+
+###
+
+POST http://localhost:3001/api/blogs/
+Content-Type: application/json
+
+{
+    "author": "joe bd",
+    "url": "joeBlog.com",
+    "title": "joe blog"
+}
+
+### 
+
+DELETE http://localhost:3001/api/blogs/3

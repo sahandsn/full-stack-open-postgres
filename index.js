@@ -1,8 +1,10 @@
 require('dotenv').config();
-const { Sequelize, QueryTypes, Model, DataTypes } = require('sequelize');
-// const express = require('express');
+const { Sequelize, Model, DataTypes } = require('sequelize');
+const express = require('express');
 
-// const app = express();
+const app = express();
+
+app.use(express.json());
 
 const sequelize = new Sequelize(process.env.ELEPHANT_URL);
 
@@ -38,31 +40,54 @@ Blog.init(
   }
 );
 
-const main = async () => {
+// const main = async () => {
+//   try {
+//     await sequelize.authenticate();
+//     console.log('connection to db has been established successfully');
+//     const blogs = await Blog.findAll();
+//     blogs.forEach(b => {
+//         console.log(`${b.dataValues.author}: ${b.dataValues.title}, ${b.dataValues.likes} likes`);
+//     })
+//     sequelize.close();
+//   } catch (err) {
+//     console.log('unable to connect to db', err);
+//   }
+// };
+
+// main();
+
+// get all
+app.get('/api/blogs', async (req, res) => {
+  const blogs = await Blog.findAll();
+  return res.json(blogs);
+});
+
+// add a new one
+app.post('/api/blogs', async (req, res) => {
   try {
-    await sequelize.authenticate();
-    console.log('connection to db has been established successfully');
-    const blogs = await Blog.findAll();
-    blogs.forEach(b => {
-        console.log(`${b.dataValues.author}: ${b.dataValues.title}, ${b.dataValues.likes} likes`);
-    })
-    sequelize.close();
+    const blog = await Blog.create(req.body);
+    return res.json(blog);
   } catch (err) {
-    console.log('unable to connect to db', err);
+    return res.status(400).json({ err });
   }
-};
+});
 
-main();
+// delete one
+app.delete('/api/blogs/:id', async (req, res) => {
+  try {
+    const blog = await Blog.findByPk(req.params.id);
+    if (blog) {
+      blog.destroy();
+      return res.status(200).json(blog);
+    }
+    return res.status(404).end();
+  } catch (err) {
+    return res.status(400).json({ err });
+  }
+});
 
-// app.get('/api/blogs', async (req, res) => {
-//   const blogs = await sequelize.query('SELECT * FROM blogs', {
-//     type: QueryTypes.SELECT,
-//   });
-//   res.json(blogs);
-// });
+const PORT = process.env.PORT || 3001;
 
-// const PORT = process.env.PORT || 3001;
-
-// app.listen(PORT, () => {
-//   console.log('server running on port', PORT);
-// });
+app.listen(PORT, () => {
+  console.log('server running on port', PORT);
+});
