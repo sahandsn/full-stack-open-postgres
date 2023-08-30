@@ -34,4 +34,18 @@ router.delete('/:id', blogFinder, async (req, res) => {
   }
 });
 
+// update one
+router.put('/:id', blogFinder, async (req, res) => {
+  try {
+    if (req.blog) {
+      req.blog.likes = req.body.likes;
+      await req.blog.save()
+      return res.status(200).json(req.blog);
+    }
+    return res.status(404).end();
+  } catch (err) {
+    return res.status(400).json({ err });
+  }
+});
+
 module.exports = router;
