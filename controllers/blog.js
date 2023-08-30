@@ -2,8 +2,20 @@ const router = require('express').Router();
 const { Blog } = require('../models');
 
 const blogFinder = async (req, res, next) => {
-  req.blog = await Blog.findByPk(req.params.id);
-  next();
+  Blog.findByPk(req.params.id)
+    .then((response) => {
+      if (response === null) {
+        err.type = 'find';
+        next(err);
+      }
+
+      req.blog = response;
+      next();
+    })
+    .catch((err) => {
+      err.type = 'find';
+      next(err);
+    });
 };
 
 router.get('/', async (req, res) => {
@@ -12,40 +24,45 @@ router.get('/', async (req, res) => {
 });
 
 // add a new one
-router.post('/', async (req, res) => {
-  try {
-    const blog = await Blog.create(req.body);
-    return res.json(blog);
-  } catch (err) {
-    return res.status(400).json({ err });
-  }
+router.post('/', async (req, res, next) => {
+  Blog.create(req.body)
+    .then((response) => {
+      return res.json(response);
+    })
+    .catch((err) => {
+      err.type = 'create';
+      next(err);
+    });
 });
 
 // delete one
 router.delete('/:id', blogFinder, async (req, res) => {
-  try {
-    if (req.blog) {
-      req.blog.destroy();
+  req.blog
+    .destroy()
+    .then(() => {
       return res.status(200).json(req.blog);
-    }
-    return res.status(404).end();
-  } catch (err) {
-    return res.status(400).json({ err });
-  }
+    })
+    .catch((err) => {
+      err.type = 'delete';
+      next(err);
+    });
 });
 
 // update one
-router.put('/:id', blogFinder, async (req, res) => {
-  try {
-    if (req.blog) {
-      req.blog.likes = req.body.likes;
-      await req.blog.save()
-      return res.status(200).json(req.blog);
-    }
-    return res.status(404).end();
-  } catch (err) {
-    return res.status(400).json({ err });
+router.put('/:id', blogFinder, async (req, res, next) => {
+  if (!Object.hasOwn(req.body, 'likes')) {
+    next({ type: 'put' });
   }
+  req.blog.likes = req.body.likes;
+  req.blog
+    .save()
+    .then(() => {
+      return res.status(200).json(req.blog);
+    })
+    .catch((err) => {
+      err.type = 'put';
+      next(err);
+    });
 });
 
 module.exports = router;

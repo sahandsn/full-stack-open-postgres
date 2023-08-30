@@ -6,18 +6,18 @@ POST http://localhost:3001/api/blogs/
 Content-Type: application/json
 
 {
-    "author": "joe bd",
-    "url": "joeBlog.com",
-    "title": "joe blog"
+    "author": "joe bd jr",
+    "url": "joeJrBlog.com",
+    "title": "joeJr blog"
 }
 
 ### 
 
-DELETE http://localhost:3001/api/blogs/3
+DELETE http://localhost:3001/api/blogs/99
 ###
-PUT http://localhost:3001/api/blogs/6
+PUT http://localhost:3001/api/blogs/7
 Content-Type: application/json
 
 {
-    "likes": 6
+    "like": 7
 }
