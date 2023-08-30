@@ -24,7 +24,6 @@ app.use((error, req, res, next) => {
     default:
       return res.status(500).json({ error: 'an error occured' });
   }
-  next(error);
 });
 
 const start = async () => {
