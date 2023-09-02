@@ -16,6 +16,9 @@ app.use((req, res) => {
 });
 app.use((error, req, res, next) => {
   console.error('error handling middleware', error);
+  if(error.name === "SequelizeValidationError"){
+    return res.status(401).json({error: error.errors[0].message ?? 'something went wrong.'})
+  }
   switch (error.type) {
     case 'create':
       return res.status(400).json({ error: 'blog was not created' });

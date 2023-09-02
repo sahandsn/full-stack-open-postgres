@@ -13,13 +13,25 @@ router.get('/', async (req, res) => {
   res.json(users);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   const saltRounds = 10;
   try {
     const { name, username, password } = req.body;
     const passwordHash = await bcrypt.hash(password, saltRounds);
-    const createdUser = await User.create({ name, username, passwordHash });
-    res.json(createdUser);
+    // const createdUser = await User.create({ name, username, passwordHash });
+    User.create({
+      name,
+      username,
+      passwordHash,
+    })
+      .then((createdUser) => {
+        return res.json(createdUser);
+      })
+      .catch((error) => {
+        console.log(error);
+        next(error);
+      });
+    // return res.json(createdUser);
   } catch (error) {
     return res.status(400).json({ error });
   }
@@ -37,8 +49,8 @@ router.get('/:id', async (req, res) => {
 router.put('/:username', async (req, res) => {
   const user = await User.findOne({
     where: {
-      username: req.params.username
-    }
+      username: req.params.username,
+    },
   });
   user.username = req.body.username;
   user
