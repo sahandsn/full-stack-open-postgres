@@ -1,5 +1,7 @@
 const router = require('express').Router();
+const jwt = require('jsonwebtoken');
 const { Blog, User } = require('../models');
+const { SECRET } = require('../util/config');
 
 const blogFinder = async (req, res, next) => {
   Blog.findByPk(req.params.id)
@@ -22,7 +24,8 @@ const tokenExtractor = (req, res, next) => {
   const authorization = req.get('authorization');
   if (authorization?.toLowerCase().startsWith('bearer ')) {
     try {
-      req.decodedToken = jwt.verify(authorization.substring(7), SECRET);
+      const decodedToken = jwt.verify(authorization.substring(7), SECRET);
+      req.decodedToken = decodedToken;
     } catch {
       return res.status(401).json({ error: 'token invalid' });
     }

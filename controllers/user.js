@@ -18,7 +18,6 @@ router.post('/', async (req, res, next) => {
   try {
     const { name, username, password } = req.body;
     const passwordHash = await bcrypt.hash(password, saltRounds);
-    // const createdUser = await User.create({ name, username, passwordHash });
     User.create({
       name,
       username,
@@ -31,7 +30,6 @@ router.post('/', async (req, res, next) => {
         console.log(error);
         next(error);
       });
-    // return res.json(createdUser);
   } catch (error) {
     return res.status(400).json({ error });
   }

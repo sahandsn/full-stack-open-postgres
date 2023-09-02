@@ -6,15 +6,15 @@ const { SECRET } = require('../util/config');
 const User = require('../models/users');
 
 router.post('/', async (request, response) => {
-  const body = request.body;
+  const {username, password} = request.body;
 
   const user = await User.findOne({
     where: {
-      username: body.username,
+      username: username,
     },
   });
 
-  const isPasswordCorrect = bcrypt.compare(body.password, user.password);
+  const isPasswordCorrect = await bcrypt.compare(password, user.passwordHash);
 
   if (!(user && isPasswordCorrect)) {
     return response.status(401).json({
@@ -26,8 +26,7 @@ router.post('/', async (request, response) => {
     username: user.username,
     id: user.id,
   };
-
-  const token = jwt.sign(userForToken, SECRET);
+  const token = jwt.sign(userForToken, SECRET)
 
   response
     .status(200)
