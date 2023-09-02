@@ -2,11 +2,15 @@ const express = require('express');
 const { PORT } = require('./util/config');
 const { connectToDataBase } = require('./util/db');
 const blogsRouter = require('./controllers/blog');
+const usersRouter = require('./controllers/user');
+const loginRouter = require('./controllers/login');
 
 const app = express();
 
 app.use(express.json());
 app.use('/api/blogs', blogsRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/login', loginRouter);
 app.use((req, res) => {
   res.status(404).json({ error: 'unknown endpoint' });
 });

@@ -21,3 +21,21 @@ Content-Type: application/json
 {
     "like": 7
 }
+###
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "name": "sahand",
+    "username": "sahandSN",
+    "password": "1234"
+}
+###
+GET http://localhost:3001/api/users
+###
+PUT http://localhost:3001/api/users/sahandSN
+Content-Type: application/json
+
+{
+    "username": "sahand-sanaei"
+}
