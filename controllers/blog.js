@@ -4,7 +4,14 @@ const { Blog, User } = require('../models');
 const { SECRET } = require('../util/config');
 
 const blogFinder = async (req, res, next) => {
-  Blog.findByPk(req.params.id)
+  Blog.findByPk(req.params.id, {
+    include: {
+      model: User,
+      attributes: {
+        exclude: ['passwordHash', 'createdAt', 'updatedAt', 'id'],
+      },
+    },
+  })
     .then((response) => {
       if (response === null) {
         err.type = 'find';
@@ -69,16 +76,23 @@ router.post('/', tokenExtractor, async (req, res, next) => {
 });
 
 // delete one
-router.delete('/:id', blogFinder, async (req, res, next) => {
-  req.blog
-    .destroy()
-    .then(() => {
-      return res.status(200).json(req.blog);
-    })
-    .catch((err) => {
-      err.type = 'delete';
-      next(err);
-    });
+router.delete('/:id', tokenExtractor, blogFinder, async (req, res, next) => {
+  const user = await User.findByPk(req.decodedToken.id);
+  console.log('user', user);
+  console.log('blog', req.blog);
+  if (user && user.username === req.blog.user.username) {
+    req.blog
+      .destroy()
+      .then(() => {
+        return res.status(200).json(req.blog);
+      })
+      .catch((err) => {
+        err.type = 'delete';
+        next(err);
+      });
+  } else {
+    return res.status(401).json({ error: 'token invalid' });
+  }
 });
 
 // update one
