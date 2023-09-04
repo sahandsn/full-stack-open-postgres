@@ -5,8 +5,8 @@ const { User, Blog } = require('../models');
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
-    inclide: {
-      mpdel: Blog,
+    include: {
+      model: Blog,
       attributes: { exclude: ['userId'] },
     },
   });
