@@ -1,15 +1,18 @@
 GET http://localhost:3001/api/blogs/
 
 ###
+GET http://localhost:3001/api/blogs?search=ShielD
+
+###
 
 POST http://localhost:3001/api/blogs/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbWltU04iLCJpZCI6MywiaWF0IjoxNjkzODU4NTk4fQ.GaeItPRx8zrmTQBfkXQVUBUpnyp-c75nkwGylpaRsfY
 
 {
-    "author": "test",
+    "author": "shield",
     "url": "testBlog.com",
-    "title": "test blog"
+    "title": "shield only"
 }
 
 ### 
