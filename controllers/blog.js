@@ -6,6 +6,9 @@ const { Op } = require('sequelize');
 
 const blogFinder = async (req, res, next) => {
   Blog.findByPk(req.params.id, {
+    attributes: {
+      exclude: ['userId'],
+    },
     include: {
       model: User,
       attributes: {
