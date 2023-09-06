@@ -53,3 +53,5 @@ Content-Type: application/json
     "username": "samimSN",
     "password": "1234"
 }
+###
+GET http://localhost:3001/api/author

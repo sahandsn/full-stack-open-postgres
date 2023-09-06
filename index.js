@@ -4,6 +4,7 @@ const { connectToDataBase } = require('./util/db');
 const blogsRouter = require('./controllers/blog');
 const usersRouter = require('./controllers/user');
 const loginRouter = require('./controllers/login');
+const authorRouter = require('./controllers/author');
 
 const app = express();
 
@@ -11,13 +12,16 @@ app.use(express.json());
 app.use('/api/blogs', blogsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/author', authorRouter);
 app.use((req, res) => {
   res.status(404).json({ error: 'unknown endpoint' });
 });
 app.use((error, req, res, next) => {
   console.error('error handling middleware', error);
-  if(error.name === "SequelizeValidationError"){
-    return res.status(401).json({error: error.errors[0].message ?? 'something went wrong.'})
+  if (error.name === 'SequelizeValidationError') {
+    return res
+      .status(401)
+      .json({ error: error.errors[0].message ?? 'something went wrong.' });
   }
   switch (error.type) {
     case 'create':
