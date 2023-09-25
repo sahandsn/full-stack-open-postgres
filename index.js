@@ -5,6 +5,7 @@ const blogsRouter = require('./controllers/blog');
 const usersRouter = require('./controllers/user');
 const loginRouter = require('./controllers/login');
 const authorRouter = require('./controllers/author');
+const readingListRouter = require('./controllers/readingList');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use('/api/blogs', blogsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/author', authorRouter);
+app.use('/api/readinglists', readingListRouter);
 app.use((req, res) => {
   res.status(404).json({ error: 'unknown endpoint' });
 });
@@ -32,6 +34,8 @@ app.use((error, req, res, next) => {
       return res.status(400).json({ error: 'blog was not deleted' });
     case 'put':
       return res.status(400).json({ error: 'blog was not updated' });
+    case 'addReadingist':
+      return res.status(400).json({ error: 'blogId and userId are needed' });
     default:
       return res.status(500).json({ error: 'an error occured' });
   }
