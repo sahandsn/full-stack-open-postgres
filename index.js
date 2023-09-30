@@ -36,6 +36,10 @@ app.use((error, req, res, next) => {
       return res.status(400).json({ error: 'blog was not updated' });
     case 'addReadingist':
       return res.status(400).json({ error: 'blogId and userId are needed' });
+    case 'putReadinglistNotFound':
+      return res.status(400).json({ error: 'reading list id is not found' });
+    case 'putReadinglistRead':
+      return res.status(400).json({ error: 'read value is needed' });
     default:
       return res.status(500).json({ error: 'an error occured' });
   }

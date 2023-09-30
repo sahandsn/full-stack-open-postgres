@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { tokenExtractor } = require('../util/router');
 const { UsersBlogs } = require('../models');
 
 router.post('/', async (req, res, next) => {
@@ -14,6 +15,27 @@ router.post('/', async (req, res, next) => {
       err.type = 'addReadingist';
       next(err);
     });
+});
+
+router.put('/:id', tokenExtractor, async (req, res, next) => {
+  console.log('from the decoded token', req.decodedToken);
+  const rel = await UsersBlogs.findByPk(req.params.id);
+  if (rel) {
+    if (!Object.hasOwn(req.body, 'read')) {
+      next({ type: 'putReadinglistRead' });
+    }
+    rel.read = req.body.read;
+    rel
+      .save()
+      .then(() => {
+        return res.status(200).json(rel);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  } else {
+    next({ type: 'putReadinglistNotFound' });
+  }
 });
 
 module.exports = router;

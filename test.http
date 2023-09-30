@@ -7,19 +7,18 @@ GET http://localhost:3001/api/blogs?search=sword
 
 POST http://localhost:3001/api/blogs/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhaGFuZEBnbWFpbC5jb20iLCJpZCI6MSwiaWF0IjoxNjk0ODgwMzUxfQ.4iKKRR4y0gy9GIfPp63CDpPhLgFxZuN82yd5zSQOcAo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhaGFuZEBnbWFpbC5jb20iLCJpZCI6MSwiaWF0IjoxNjk2MDY5MTgzfQ.GKB8Wq8i2Z3IIwiC7RVA2lCtSQYZqVwVuKddWX8B1U0
 
 {
-    "author": "sahand",
-    "url": "sahandTest2Blog.com",
-    "title": "sahand blog test2",
-    "year": 2024
+    "author": "sahand3",
+    "url": "sahandTest3Blog.com",
+    "title": "sahand blog test3"
 }
 
 ### 
 
 DELETE http://localhost:3001/api/blogs/17
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbWltU04iLCJpZCI6MywiaWF0IjoxNjkzODU4NTk4fQ.GaeItPRx8zrmTQBfkXQVUBUpnyp-c75nkwGylpaRsfY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhaGFuZEBnbWFpbC5jb20iLCJpZCI6MSwiaWF0IjoxNjk2MDY4OTU4fQ.IhmjOzAMM5t452_i0qK01Fu9PIW391ojgg0pR5U5gik
 
 ###
 PUT http://localhost:3001/api/blogs/16
@@ -62,4 +61,12 @@ Content-Type: application/json
 
 {
     "userId": "1"
+}
+###
+PUT http://localhost:3001/api/readinglists/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhaGFuZEBnbWFpbC5jb20iLCJpZCI6MSwiaWF0IjoxNjk2MDY5NzU0fQ.raN_AiWSQQZOqWWmJqMadl9qgRX_yzVMGCpD1qELuRw
+
+{
+    "read": true
 }
