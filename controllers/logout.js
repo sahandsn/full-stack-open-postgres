@@ -1,8 +1,6 @@
-const bcrypt = require('bcrypt');
 const router = require('express').Router();
 const { tokenExtractor } = require('../util/router');
 
-const User = require('../models/users');
 const Sessions = require('../models/sessions');
 
 router.delete('/', tokenExtractor, async (request, response) => {
