@@ -7,12 +7,12 @@ GET http://localhost:3001/api/blogs?search=sword
 
 POST http://localhost:3001/api/blogs/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhaGFuZEBnbWFpbC5jb20iLCJpZCI6MSwiaWF0IjoxNjk2MDY5MTgzfQ.GKB8Wq8i2Z3IIwiC7RVA2lCtSQYZqVwVuKddWX8B1U0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhaGFuZHNuQGdtYWlsLmNvbSIsImlkIjozLCJpYXQiOjE2OTYwOTg2MzR9.omE2Y3ABdTWPeCzAitRw_UCh1Gko-E3_-I4LOLZ0Yds
 
 {
-    "author": "sahand3",
-    "url": "sahandTest3Blog.com",
-    "title": "sahand blog test3"
+    "author": "sahand1",
+    "url": "sahandTest1Blog.com",
+    "title": "sahand blog test1"
 }
 
 ### 
@@ -33,7 +33,7 @@ Content-Type: application/json
 
 {
     "name": "sahand",
-    "username": "sahand@gmail.com",
+    "username": "sahandsn@gmail.com",
     "password": "1234"
 }
 ###
@@ -50,7 +50,7 @@ POST http://localhost:3001/api/login
 Content-Type: application/json
 
 {
-    "username": "sahand@gmail.com",
+    "username": "sahandsn@gmail.com",
     "password": "1234"
 }
 ###
@@ -60,13 +60,17 @@ POST http://localhost:3001/api/readinglists
 Content-Type: application/json
 
 {
-    "userId": "1"
+    "userId": "1",
+    "blogId": "2"
 }
 ###
 PUT http://localhost:3001/api/readinglists/2
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhaGFuZEBnbWFpbC5jb20iLCJpZCI6MSwiaWF0IjoxNjk2MDY5NzU0fQ.raN_AiWSQQZOqWWmJqMadl9qgRX_yzVMGCpD1qELuRw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhaGFuZHNuQGdtYWlsLmNvbSIsImlkIjozLCJpYXQiOjE2OTYxMTIwOTEsImV4cCI6MTY5NjExMjE1MX0._p-GudSL-0ug2hkS7MuXR8edGJfjIbZkx4uR53_5xE0
 
 {
     "read": true
 }
+###
+DELETE http://localhost:3001/api/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhaGFuZHNuQGdtYWlsLmNvbSIsImlkIjozLCJpYXQiOjE2OTYxMTIwOTEsImV4cCI6MTY5NjExMjE1MX0._p-GudSL-0ug2hkS7MuXR8edGJfjIbZkx4uR53_5xE0

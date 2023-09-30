@@ -1,4 +1,4 @@
-const { Sessions } = require('../models');
+const { Sessions, User } = require('../models');
 const { SECRET } = require('./config');
 const jwt = require('jsonwebtoken');
 
@@ -39,7 +39,26 @@ const tokenExtractor = async (req, res, next) => {
           userId: decodedToken.id,
         },
       });
-      console.log(session);
+      if (!session) {
+        return res.status(401).json({ error: 'expired token' });
+      }
+      const istokenExpired =
+        new Date(session.expiryDate).toUTCString() < new Date().toUTCString();
+      if (istokenExpired) {
+        return res.status(401).json({ error: 'token expired' });
+      }
+      const user = await User.findOne({
+        where: {
+          id: decodedToken.id,
+        },
+      });
+      if (!user) {
+        return res.status(401).json({ error: 'user not found' });
+      }
+      if (user.isDisabled) {
+        return res.status(401).json({ error: 'user is disabled' });
+      }
+
       req.decodedToken = decodedToken;
     } catch {
       return res.status(401).json({ error: 'token invalid' });

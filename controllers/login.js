@@ -27,12 +27,22 @@ router.post('/', async (request, response) => {
     username: user.username,
     id: user.id,
   };
-  const token = jwt.sign(userForToken, SECRET);
+  const token = jwt.sign(userForToken, SECRET, { expiresIn: '1m' });
   const decodedToken = jwt.verify(token, SECRET);
-  await Sessions.create({
-    userId: decodedToken.id,
-    expiryDate: decodedToken.exp,
+  const session = await Sessions.findOne({
+    where: {
+      userId: decodedToken.id,
+    },
   });
+  if (session) {
+    session.expiryDate = new Date(decodedToken.exp * 1000);
+    await session.save();
+  } else {
+    await Sessions.create({
+      userId: decodedToken.id,
+      expiryDate: new Date(decodedToken.exp * 1000),
+    });
+  }
 
   response
     .status(200)
