@@ -4,9 +4,10 @@ const router = require('express').Router();
 
 const { SECRET } = require('../util/config');
 const User = require('../models/users');
+const Sessions = require('../models/sessions');
 
 router.post('/', async (request, response) => {
-  const {username, password} = request.body;
+  const { username, password } = request.body;
 
   const user = await User.findOne({
     where: {
@@ -26,7 +27,12 @@ router.post('/', async (request, response) => {
     username: user.username,
     id: user.id,
   };
-  const token = jwt.sign(userForToken, SECRET)
+  const token = jwt.sign(userForToken, SECRET);
+  const decodedToken = jwt.verify(token, SECRET);
+  await Sessions.create({
+    userId: decodedToken.id,
+    expiryDate: decodedToken.exp,
+  });
 
   response
     .status(200)
