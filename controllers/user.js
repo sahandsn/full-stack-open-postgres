@@ -36,6 +36,24 @@ router.post('/', async (req, res, next) => {
 });
 
 router.get('/:id', async (req, res) => {
+  const where = {};
+  switch (req.query?.read) {
+    case undefined:
+      console.log('1');
+      break;
+    case 'true':
+      console.log('2');
+      where.read = true;
+      break;
+    case 'false':
+      console.log('3');
+      where.read = false;
+      break;
+    default:
+      console.log('4');
+      break;
+  }
+  console.log('where', where);
   const user = await User.findByPk(req.params.id, {
     attributes: ['name', 'username'],
     include: [
@@ -49,6 +67,7 @@ router.get('/:id', async (req, res) => {
         attributes: { exclude: ['userId', 'createdAt', 'updatedAt'] },
         through: {
           attributes: ['read', 'id'],
+          where,
         },
       },
     ],

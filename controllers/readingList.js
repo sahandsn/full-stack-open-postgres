@@ -18,7 +18,6 @@ router.post('/', async (req, res, next) => {
 });
 
 router.put('/:id', tokenExtractor, async (req, res, next) => {
-  console.log('from the decoded token', req.decodedToken);
   const rel = await UsersBlogs.findByPk(req.params.id);
   if (rel) {
     if (!Object.hasOwn(req.body, 'read')) {
